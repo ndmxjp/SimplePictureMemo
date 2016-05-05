@@ -13,6 +13,7 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
 
     var note :Note?
     var activeTextView :Bool? = false
+    let memoTextViewPlaceholder = "メモを入力してください"
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var imageView: UIImageView!
@@ -28,6 +29,14 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
             imageView.image = UIImage(data: image)
             memoTextView.text = note.memo
         }
+        
+        //枠線を設定
+        memoTextView.layer.borderWidth = 1.0
+        imageView.layer.borderWidth = 1.0
+        
+        //placeholderを設定
+        memoTextView.text = memoTextViewPlaceholder
+        memoTextView.textColor = UIColor.lightGrayColor()
         
         // 仮のサイズでツールバー生成
         let kbToolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 40))
@@ -141,11 +150,19 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
     }
     
     func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+        if let text = memoTextView.text where text == memoTextViewPlaceholder {
+            memoTextView.text = ""
+            memoTextView.textColor = UIColor.blackColor()
+        }
         activeTextView = true
         return true
     }
     
     func textViewShouldEndEditing(textView: UITextView) -> Bool {
+        if let text = memoTextView.text where text == "" {
+            memoTextView.text = memoTextViewPlaceholder
+            memoTextView.textColor = UIColor.lightGrayColor()
+        }
         activeTextView = false
         return true
     }

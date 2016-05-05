@@ -23,6 +23,9 @@ class DetailViewController: UIViewController {
             imageView.image = UIImage(data: image)
             memoTextView.text = note.memo
         }
+        
+        //枠線を設定
+        memoTextView.layer.borderWidth = 1.0
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
