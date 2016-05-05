@@ -8,23 +8,56 @@
 
 import UIKit
 import CoreData
-class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
+class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate{
     
 
     var note :Note?
+    var activeTextView :Bool? = false
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var memoTextView: UITextView!
+    @IBOutlet weak var topLayoutConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomLayoutConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        memoTextView.delegate = self
         if let note = note , let image = note.image{
             titleTextField.text = note.title
             imageView.image = UIImage(data: image)
             memoTextView.text = note.memo
         }
+        
+        // 仮のサイズでツールバー生成
+        let kbToolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 40))
+        kbToolBar.barStyle = UIBarStyle.Default  // スタイルを設定
+        
+        kbToolBar.sizeToFit()  // 画面幅に合わせてサイズを変更
+        
+        // スペーサー
+        let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
+        
+        // 閉じるボタン
+        let commitButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: #selector(AddNoteViewController.commitButtonTapped))
+        
+        kbToolBar.items = [spacer, commitButton]
+
+        titleTextField.inputAccessoryView = kbToolBar
+        memoTextView.inputAccessoryView = kbToolBar
+
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        NSNotificationCenter.defaultCenter().addObserver(self,
+                                                         selector: #selector(AddNoteViewController.keyboardWillChangeFrame(_:)),
+                                                         name: UIKeyboardWillChangeFrameNotification,
+                                                         object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self,
+                                                         selector: #selector(AddNoteViewController.keyboardWillHide(_:)),
+                                                         name: UIKeyboardWillHideNotification,
+                                                         object: nil)
     }
     
     
@@ -71,5 +104,51 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
         tableViewController?.edited = true
         navigationController?.popToRootViewControllerAnimated(true)
     }
+    
+    func keyboardWillChangeFrame(notification: NSNotification){
+        if let userInfo = notification.userInfo , let active = activeTextView where active == true{
+            let tabBarHeight = self.tabBarController?.tabBar.frame.size.height
+            let keyBoardValue : NSValue = userInfo[UIKeyboardFrameEndUserInfoKey]! as! NSValue
+            let keyBoardFrame : CGRect = keyBoardValue.CGRectValue()
+            let duration : NSTimeInterval = userInfo[UIKeyboardAnimationDurationUserInfoKey]! as! NSTimeInterval
+            self.bottomLayoutConstraint.constant = keyBoardFrame.height - tabBarHeight!
+            self.topLayoutConstraint.constant = -(keyBoardFrame.height - tabBarHeight!)
+            UIView.animateWithDuration(duration, animations: { () -> Void in
+                self.view.layoutIfNeeded()
+            })
+            
+        }
+        
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        if let userInfo = notification.userInfo {
+            
+            let duration : NSTimeInterval = userInfo[UIKeyboardAnimationDurationUserInfoKey]! as! NSTimeInterval
+            
+            self.bottomLayoutConstraint.constant = 0
+            self.topLayoutConstraint.constant = 0
+            
+            UIView.animateWithDuration(duration, animations: { () -> Void in
+                self.view.layoutIfNeeded()
+            })
+            
+        }
+    }
+    
+    func commitButtonTapped (){
+        self.view.endEditing(true)
+    }
+    
+    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+        activeTextView = true
+        return true
+    }
+    
+    func textViewShouldEndEditing(textView: UITextView) -> Bool {
+        activeTextView = false
+        return true
+    }
+
     
 }
