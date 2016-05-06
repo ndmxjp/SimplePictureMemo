@@ -10,7 +10,7 @@
         <!--Settings-->
         <scene sceneID="IR8-sR-xEQ">
             <objects>
-                <viewController id="VRy-Df-Mri" sceneMemberID="viewController">
+                <viewController id="VRy-Df-Mri" customClass="SettingsViewController" customModule="PictureMemo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="oDq-mX-NoK"/>
                         <viewControllerLayoutGuide type="bottom" id="PgB-uJ-LUj"/>
@@ -18,9 +18,46 @@
                     <view key="view" contentMode="scaleToFill" id="71V-ae-yMN">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DOD-ov-hqy">
+                                <rect key="frame" x="118" y="125" width="55" height="55"/>
+                                <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mRI-cS-1b4">
+                                <rect key="frame" x="198" y="125" width="55" height="55"/>
+                                <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KfS-Kd-JbN">
+                                <rect key="frame" x="287" y="125" width="55" height="55"/>
+                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TtL-z0-ZxU">
+                                <rect key="frame" x="31" y="125" width="55" height="55"/>
+                            </button>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="ZBr-9x-VQ7">
+                                <rect key="frame" x="59" y="274" width="228" height="31"/>
+                                <connections>
+                                    <action selector="changeSliderValue:" destination="VRy-Df-Mri" eventType="valueChanged" id="k78-JD-Wvu"/>
+                                </connections>
+                            </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sample" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gp4-gf-SMm">
+                                <rect key="frame" x="115" y="350" width="170" height="68"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="Pbh-FN-FOX"/>
+                    <connections>
+                        <outlet property="cyanButton" destination="mRI-cS-1b4" id="709-3w-Ek4"/>
+                        <outlet property="greenButton" destination="KfS-Kd-JbN" id="FxR-kB-kL5"/>
+                        <outlet property="orangeButton" destination="DOD-ov-hqy" id="prM-hb-dej"/>
+                        <outlet property="slider" destination="ZBr-9x-VQ7" id="cxT-nf-KLB"/>
+                        <outlet property="textLabel" destination="Gp4-gf-SMm" id="dev-zg-f4K"/>
+                        <outlet property="whiteButton" destination="TtL-z0-ZxU" id="9Ge-1n-7si"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tIu-rh-Aof" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -56,7 +93,7 @@
                                                         <constraint firstAttribute="height" constant="100" id="Qh9-6Z-FYM"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" misplaced="YES" text="memo" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N4V-9o-1iw">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" misplaced="YES" text="memo" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N4V-9o-1iw">
                                                     <rect key="frame" x="118" y="30" width="474" height="80.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -600,6 +637,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="JcD-r4-AHT"/>
+        <segue reference="2X6-Ld-oWJ"/>
     </inferredMetricsTieBreakers>
 </document>

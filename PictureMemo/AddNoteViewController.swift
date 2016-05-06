@@ -59,6 +59,20 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        //色の設定
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        if let colorData = userDefaults.objectForKey("color") as? NSData {
+            let color = NSKeyedUnarchiver.unarchiveObjectWithData(colorData) as? UIColor
+            navigationController?.navigationBar.barTintColor = color
+            tabBarController?.tabBar.barTintColor = color
+        }
+        //fontSizeの設定
+        let fontSize = userDefaults.floatForKey("fontSize")
+        titleTextField.font = UIFont.systemFontOfSize(CGFloat(fontSize))
+        titleTextField.sizeToFit()
+        memoTextView.font = UIFont.systemFontOfSize(CGFloat(fontSize))
+        
         NSNotificationCenter.defaultCenter().addObserver(self,
                                                          selector: #selector(AddNoteViewController.keyboardWillChangeFrame(_:)),
                                                          name: UIKeyboardWillChangeFrameNotification,

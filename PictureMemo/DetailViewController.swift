@@ -28,6 +28,23 @@ class DetailViewController: UIViewController {
         memoTextView.layer.borderWidth = 1.0
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //色の設定
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        if let colorData = userDefaults.objectForKey("color") as? NSData {
+            let color = NSKeyedUnarchiver.unarchiveObjectWithData(colorData) as? UIColor
+            navigationController?.navigationBar.barTintColor = color
+            tabBarController?.tabBar.barTintColor = color
+        }
+        //fontSizeの設定
+        let fontSize = userDefaults.floatForKey("fontSize")
+        titleLabel.font = UIFont.systemFontOfSize(CGFloat(fontSize))
+        titleLabel.sizeToFit()
+        memoTextView.font = UIFont.systemFontOfSize(CGFloat(fontSize))
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let addNotelViewController = segue.destinationViewController as? AddNoteViewController {
             if let note = note {

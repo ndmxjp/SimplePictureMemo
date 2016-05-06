@@ -16,6 +16,7 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
     var noteImage :UIImage?
     var noteMemo :String?
     var edited :Bool?
+    var fontSize :Float?
     
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
@@ -45,6 +46,18 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+
+        //色の設定
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        if let colorData = userDefaults.objectForKey("color") as? NSData {
+            let color = NSKeyedUnarchiver.unarchiveObjectWithData(colorData) as? UIColor
+            navigationController?.navigationBar.barTintColor = color
+            tabBarController?.tabBar.barTintColor = color
+        }
+        //fontSizeの設定
+        self.fontSize = userDefaults.floatForKey("fontSize")
+        
+        //テーブルの更新
         if let title = noteTitle, let image = noteImage, let memo = noteMemo {
             if let edited = edited where edited {
                 if let noteIndex = deleteNoteIndex {
@@ -54,6 +67,7 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
             saveNote(title, image: image, memo: memo)
         }
 
+        tableView.reloadData()
         
         edited = nil
         noteTitle = nil
@@ -78,6 +92,12 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
             cell.itemTitleLabel.text = title
             cell.itemImageView.image = UIImage(data: image)
             cell.itemMemoLabel.text = memo
+
+            if let fontSize = self.fontSize where fontSize != 0.0{
+                cell.itemMemoLabel.font = UIFont.systemFontOfSize(CGFloat(fontSize))
+                cell.itemTitleLabel.font = UIFont.systemFontOfSize(CGFloat(fontSize))
+                cell.itemTitleLabel.sizeToFit()
+            }
         }
         return cell
     }
