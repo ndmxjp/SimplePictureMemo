@@ -27,6 +27,10 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //sliderValueの設定
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        slider.value = userDefaults.floatForKey("sliderValue")
+        
         let borderWidth = CGFloat(2.0)
         
         whiteButton.addTarget(self, action: #selector(SettingsViewController.tapEvent(_:)), forControlEvents: .TouchUpInside)
@@ -92,12 +96,13 @@ class SettingsViewController: UIViewController {
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
         userDefaults.setFloat(fontSize, forKey: "fontSize")
+        userDefaults.setFloat(slider.value, forKey: "sliderValue")
         userDefaults.synchronize()
     }
     
     func convert(value :Float) -> Float{
         let min = 17.0
-        let max = 40.0
+        let max = 30.0
         return value * Float(max - min) + Float(min)
     }
     

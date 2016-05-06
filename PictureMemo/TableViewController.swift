@@ -93,7 +93,7 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
             cell.itemImageView.image = UIImage(data: image)
             cell.itemMemoLabel.text = memo
 
-            if let fontSize = self.fontSize where fontSize != 0.0{
+            if let fontSize = self.fontSize {
                 cell.itemMemoLabel.font = UIFont.systemFontOfSize(CGFloat(fontSize))
                 cell.itemTitleLabel.font = UIFont.systemFontOfSize(CGFloat(fontSize))
                 cell.itemTitleLabel.sizeToFit()

@@ -28,15 +28,15 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
             titleTextField.text = note.title
             imageView.image = UIImage(data: image)
             memoTextView.text = note.memo
+        } else {
+            //placeholderを設定
+            memoTextView.text = memoTextViewPlaceholder
+            memoTextView.textColor = UIColor.lightGrayColor()
         }
         
         //枠線を設定
         memoTextView.layer.borderWidth = 1.0
         imageView.layer.borderWidth = 1.0
-        
-        //placeholderを設定
-        memoTextView.text = memoTextViewPlaceholder
-        memoTextView.textColor = UIColor.lightGrayColor()
         
         // 仮のサイズでツールバー生成
         let kbToolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 40))
@@ -130,12 +130,14 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
     
     func keyboardWillChangeFrame(notification: NSNotification){
         if let userInfo = notification.userInfo , let active = activeTextView where active == true{
-            let tabBarHeight = self.tabBarController?.tabBar.frame.size.height
+            guard let tabBarHeight = self.tabBarController?.tabBar.frame.size.height else{
+                return
+            }
             let keyBoardValue : NSValue = userInfo[UIKeyboardFrameEndUserInfoKey]! as! NSValue
             let keyBoardFrame : CGRect = keyBoardValue.CGRectValue()
             let duration : NSTimeInterval = userInfo[UIKeyboardAnimationDurationUserInfoKey]! as! NSTimeInterval
-            self.bottomLayoutConstraint.constant = keyBoardFrame.height - tabBarHeight!
-            self.topLayoutConstraint.constant = -(keyBoardFrame.height - tabBarHeight!)
+            self.bottomLayoutConstraint.constant = keyBoardFrame.height - tabBarHeight
+            self.topLayoutConstraint.constant = -(keyBoardFrame.height - tabBarHeight)
             UIView.animateWithDuration(duration, animations: { () -> Void in
                 self.view.layoutIfNeeded()
             })
