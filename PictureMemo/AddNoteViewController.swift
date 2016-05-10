@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+
 class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate{
     
 
@@ -69,7 +70,7 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
         //fontSizeの設定
         let fontSize = userDefaults.floatForKey("fontSize")
         titleTextField.font = UIFont.systemFontOfSize(CGFloat(fontSize))
-        titleTextField.sizeToFit()
+//        titleTextField.sizeToFit()
         memoTextView.font = UIFont.systemFontOfSize(CGFloat(fontSize))
         placeHolderLabel.font = UIFont.systemFontOfSize(CGFloat(fontSize))
         placeHolderLabel.sizeToFit()
