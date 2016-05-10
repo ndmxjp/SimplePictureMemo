@@ -14,13 +14,17 @@ enum FontSize :Float{
     case min = 17.0
 }
 
+struct NoteAttributes {
+    var title :String?
+    var uiImage :UIImage?
+    var memo :String?
+}
+
 class TableViewController: UIViewController , UITableViewDelegate, UITableViewDataSource{
 
     var notes :[Note] = []
     var deleteNoteIndex :Int?
-    var noteTitle :String?
-    var noteImage :UIImage?
-    var noteMemo :String?
+    var noteAttributes :NoteAttributes?
     var edited :Bool?
     var fontSize :Float?
     
@@ -68,11 +72,10 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
         self.fontSize = userDefaults.floatForKey("fontSize")
         
         //テーブルの更新
-        if let title = noteTitle, let image = noteImage, let memo = noteMemo {
-            if let edited = edited where edited {
-                if let noteIndex = deleteNoteIndex {
-                    deleteNote(noteIndex)
-                }
+        if let noteAttributes = noteAttributes, let title = noteAttributes.title , let image = noteAttributes.uiImage, let memo = noteAttributes.memo {
+            //更新の場合
+            if let edited = edited where edited , let noteIndex = deleteNoteIndex {
+                deleteNote(noteIndex)
             }
             saveNote(title, image: image, memo: memo)
         }
@@ -80,9 +83,7 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
         tableView.reloadData()
         
         edited = nil
-        noteTitle = nil
-        noteImage = nil
-        noteMemo = nil
+        noteAttributes = nil
         deleteNoteIndex = nil
     }
 

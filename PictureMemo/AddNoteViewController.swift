@@ -121,9 +121,7 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
         }
         
         let tableViewController = navigationController?.viewControllers.first as? TableViewController
-        tableViewController?.noteTitle = title
-        tableViewController?.noteImage = image
-        tableViewController?.noteMemo = memo
+        tableViewController?.noteAttributes = NoteAttributes(title: title, uiImage: image, memo: memo)
         tableViewController?.edited = true
         navigationController?.popToRootViewControllerAnimated(true)
     }
