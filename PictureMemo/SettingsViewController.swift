@@ -81,7 +81,7 @@ class SettingsViewController: UIViewController {
         navigationController?.navigationBar.barTintColor = color
         tabBarController?.tabBar.barTintColor = color
         
-        //userDfaultsに色の情報を保存
+        //userDefaultsに色の情報を保存
         let colorData = NSKeyedArchiver.archivedDataWithRootObject(color)
         let userDefaults = NSUserDefaults.standardUserDefaults()
         userDefaults.setObject(colorData, forKey: "color")
@@ -93,6 +93,7 @@ class SettingsViewController: UIViewController {
         let fontSize = convert(slider.value)
         textLabel.font = UIFont.systemFontOfSize(CGFloat(fontSize))
         
+        //userDefaultsにfont-sizeの情報を保存
         let userDefaults = NSUserDefaults.standardUserDefaults()
         userDefaults.setFloat(fontSize, forKey: "fontSize")
         userDefaults.setFloat(slider.value, forKey: "sliderValue")

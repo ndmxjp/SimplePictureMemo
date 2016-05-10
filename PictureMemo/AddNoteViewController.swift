@@ -13,7 +13,6 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
 
     var note :Note?
     var activeTextView :Bool? = false
-//    let memoTextViewPlaceholder = "メモを入力してください"
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var imageView: UIImageView!
@@ -32,11 +31,6 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
             
             placeHolderLabel.hidden = true
         }
-//        else {
-//            //placeholderを設定
-//            memoTextView.text = memoTextViewPlaceholder
-//            memoTextView.textColor = UIColor.lightGrayColor()
-//        }
         
         //枠線を設定
         memoTextView.layer.borderWidth = 1.0
@@ -56,6 +50,7 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
         
         kbToolBar.items = [spacer, commitButton]
 
+        //キーボードにdoneボタンを追加
         titleTextField.inputAccessoryView = kbToolBar
         memoTextView.inputAccessoryView = kbToolBar
 
@@ -126,17 +121,22 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
             return
         }
         
+        //tableViewControllerにnoteの値をセット
         let tableViewController = navigationController?.viewControllers.first as? TableViewController
         tableViewController?.noteAttributes = NoteAttributes(title: title, uiImage: image, memo: memo)
         tableViewController?.edited = true
+        
+        //tableViewに戻る
         navigationController?.popToRootViewControllerAnimated(true)
     }
     
     func keyboardWillChangeFrame(notification: NSNotification){
+        //textViewが選択された時
         if let userInfo = notification.userInfo , let active = activeTextView where active == true{
             guard let tabBarHeight = self.tabBarController?.tabBar.frame.size.height else{
                 return
             }
+            //constraintを変化させviewをずらす
             let keyBoardValue : NSValue = userInfo[UIKeyboardFrameEndUserInfoKey]! as! NSValue
             let keyBoardFrame : CGRect = keyBoardValue.CGRectValue()
             let duration : NSTimeInterval = userInfo[UIKeyboardAnimationDurationUserInfoKey]! as! NSTimeInterval
@@ -154,7 +154,7 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
         if let userInfo = notification.userInfo {
             
             let duration : NSTimeInterval = userInfo[UIKeyboardAnimationDurationUserInfoKey]! as! NSTimeInterval
-            
+            //viewを元の位置に戻す
             self.bottomLayoutConstraint.constant = 0
             self.topLayoutConstraint.constant = 0
             
@@ -165,25 +165,18 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
         }
     }
     
+    //doneボタンが押された時の処理
     func commitButtonTapped (){
         self.view.endEditing(true)
     }
     
     func textViewShouldBeginEditing(textView: UITextView) -> Bool {
-//        if let text = memoTextView.text where text == memoTextViewPlaceholder {
-//            memoTextView.text = ""
-//            memoTextView.textColor = UIColor.blackColor()
-//        }
         placeHolderLabel.hidden = true
         activeTextView = true
         return true
     }
     
     func textViewShouldEndEditing(textView: UITextView) -> Bool {
-//        if let text = memoTextView.text where text == "" {
-//            memoTextView.text = memoTextViewPlaceholder
-//            memoTextView.textColor = UIColor.lightGrayColor()
-//        }
         if memoTextView.text.isEmpty {
             placeHolderLabel.hidden = false
         }

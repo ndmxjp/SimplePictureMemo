@@ -9,11 +9,13 @@
 import UIKit
 import CoreData
 
+//font-sizeの最大と最小の定義
 enum FontSize :Float{
     case max = 30.0
     case min = 17.0
 }
 
+//noteの情報を受け取るための構造体
 struct NoteAttributes {
     var title :String?
     var uiImage :UIImage?
@@ -42,6 +44,7 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
         //tableViewの余白を消す
         self.automaticallyAdjustsScrollViewInsets = false;
         
+        //coredataからデータを取り出す
         let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
         if let managedContext = appDelegate?.managedObjectContext {
             let entityDescription = NSEntityDescription.entityForName("Note", inManagedObjectContext: managedContext)
@@ -104,6 +107,7 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
             cell.itemImageView.image = UIImage(data: image)
             cell.itemMemoLabel.text = memo
 
+            //font-sizeの設定
             if let fontSize = self.fontSize {
                 cell.itemMemoLabel.font = UIFont.systemFontOfSize(CGFloat(fontSize))
                 cell.itemTitleLabel.font = UIFont.systemFontOfSize(CGFloat(fontSize))
@@ -134,6 +138,7 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
         }
     }
     
+    //coredataからノートの削除
     func deleteNote(index :Int){
         let appDelegate  = UIApplication.sharedApplication().delegate as? AppDelegate
         let managedContex = appDelegate?.managedObjectContext
@@ -143,6 +148,7 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
         tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: index,inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
     }
     
+    //noteをcoredataに保存する処理
     func saveNote(title :String, image: UIImage, memo :String){
         let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
         if let managedContext = appDelegate?.managedObjectContext {
