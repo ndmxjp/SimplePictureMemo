@@ -8,6 +8,12 @@
 
 import UIKit
 import CoreData
+
+enum FontSize :Float{
+    case max = 30.0
+    case min = 17.0
+}
+
 class TableViewController: UIViewController , UITableViewDelegate, UITableViewDataSource{
 
     var notes :[Note] = []
@@ -24,6 +30,10 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
         // Do any additional setup after loading the view, typically from a nib.
         tableView.delegate = self
         tableView.dataSource = self
+        
+        //userDefaultsの初期値設定
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.registerDefaults(["fontSize" : FontSize.min.rawValue ])
         
         //tableViewの余白を消す
         self.automaticallyAdjustsScrollViewInsets = false;

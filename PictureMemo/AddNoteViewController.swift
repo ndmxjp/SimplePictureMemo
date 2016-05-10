@@ -108,7 +108,7 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
     }
     
     @IBAction func tapSaveButton(sender: AnyObject) {
-        guard let title = titleTextField.text where title != "", let image = imageView.image, let memo = memoTextView.text where memo != "" else {
+        guard let title = titleTextField.text where title != "", let image = imageView.image, let memo = memoTextView.text where memo != "" && memo != memoTextViewPlaceholder else {
             
             //アラートダイアログ生成
             let alertController = UIAlertController(title: "error", message: "入力していない項目があります", preferredStyle: UIAlertControllerStyle.Alert)

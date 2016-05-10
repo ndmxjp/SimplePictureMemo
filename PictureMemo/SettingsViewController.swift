@@ -92,7 +92,7 @@ class SettingsViewController: UIViewController {
     @IBAction func changeSliderValue(sender: AnyObject) {
         let fontSize = convert(slider.value)
         textLabel.font = UIFont.systemFontOfSize(CGFloat(fontSize))
-        textLabel.sizeToFit()
+//        textLabel.sizeToFit()
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
         userDefaults.setFloat(fontSize, forKey: "fontSize")
@@ -101,8 +101,8 @@ class SettingsViewController: UIViewController {
     }
     
     func convert(value :Float) -> Float{
-        let min = 17.0
-        let max = 30.0
+        let min = FontSize.min.rawValue
+        let max = FontSize.max.rawValue
         return value * Float(max - min) + Float(min)
     }
     
