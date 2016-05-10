@@ -13,11 +13,12 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
 
     var note :Note?
     var activeTextView :Bool? = false
-    let memoTextViewPlaceholder = "メモを入力してください"
+//    let memoTextViewPlaceholder = "メモを入力してください"
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var memoTextView: UITextView!
+    @IBOutlet weak var placeHolderLabel: UILabel!
     @IBOutlet weak var topLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomLayoutConstraint: NSLayoutConstraint!
     
@@ -28,11 +29,14 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
             titleTextField.text = note.title
             imageView.image = UIImage(data: image)
             memoTextView.text = note.memo
-        } else {
-            //placeholderを設定
-            memoTextView.text = memoTextViewPlaceholder
-            memoTextView.textColor = UIColor.lightGrayColor()
+            
+            placeHolderLabel.hidden = true
         }
+//        else {
+//            //placeholderを設定
+//            memoTextView.text = memoTextViewPlaceholder
+//            memoTextView.textColor = UIColor.lightGrayColor()
+//        }
         
         //枠線を設定
         memoTextView.layer.borderWidth = 1.0
@@ -72,6 +76,8 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
         titleTextField.font = UIFont.systemFontOfSize(CGFloat(fontSize))
         titleTextField.sizeToFit()
         memoTextView.font = UIFont.systemFontOfSize(CGFloat(fontSize))
+        placeHolderLabel.font = UIFont.systemFontOfSize(CGFloat(fontSize))
+        placeHolderLabel.sizeToFit()
         
         NSNotificationCenter.defaultCenter().addObserver(self,
                                                          selector: #selector(AddNoteViewController.keyboardWillChangeFrame(_:)),
@@ -108,7 +114,7 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
     }
     
     @IBAction func tapSaveButton(sender: AnyObject) {
-        guard let title = titleTextField.text where title != "", let image = imageView.image, let memo = memoTextView.text where memo != "" && memo != memoTextViewPlaceholder else {
+        guard let title = titleTextField.text where title != "", let image = imageView.image, let memo = memoTextView.text where memo != "" else {
             
             //アラートダイアログ生成
             let alertController = UIAlertController(title: "error", message: "入力していない項目があります", preferredStyle: UIAlertControllerStyle.Alert)
@@ -164,18 +170,22 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
     }
     
     func textViewShouldBeginEditing(textView: UITextView) -> Bool {
-        if let text = memoTextView.text where text == memoTextViewPlaceholder {
-            memoTextView.text = ""
-            memoTextView.textColor = UIColor.blackColor()
-        }
+//        if let text = memoTextView.text where text == memoTextViewPlaceholder {
+//            memoTextView.text = ""
+//            memoTextView.textColor = UIColor.blackColor()
+//        }
+        placeHolderLabel.hidden = true
         activeTextView = true
         return true
     }
     
     func textViewShouldEndEditing(textView: UITextView) -> Bool {
-        if let text = memoTextView.text where text == "" {
-            memoTextView.text = memoTextViewPlaceholder
-            memoTextView.textColor = UIColor.lightGrayColor()
+//        if let text = memoTextView.text where text == "" {
+//            memoTextView.text = memoTextViewPlaceholder
+//            memoTextView.textColor = UIColor.lightGrayColor()
+//        }
+        if memoTextView.text.isEmpty {
+            placeHolderLabel.hidden = false
         }
         activeTextView = false
         return true

@@ -92,7 +92,6 @@ class SettingsViewController: UIViewController {
     @IBAction func changeSliderValue(sender: AnyObject) {
         let fontSize = convert(slider.value)
         textLabel.font = UIFont.systemFontOfSize(CGFloat(fontSize))
-//        textLabel.sizeToFit()
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
         userDefaults.setFloat(fontSize, forKey: "fontSize")
