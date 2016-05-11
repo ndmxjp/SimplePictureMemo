@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 
+
 class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate{
     
 
@@ -21,7 +22,12 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
     @IBOutlet weak var placeHolderLabel: UILabel!
     @IBOutlet weak var topLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomLayoutConstraint: NSLayoutConstraint!
+    @IBOutlet weak var viewA: UIView!
+    @IBOutlet weak var viewB: UIView!
+    @IBOutlet weak var viewCtopLayoutConstraint: NSLayoutConstraint!
+    @IBOutlet weak var viewCtopLayoutConstraitLandscape: NSLayoutConstraint!
     
+    @IBOutlet weak var viewCLeadingConstraint: NSLayoutConstraint!
     override func viewDidLoad() {
         super.viewDidLoad()
         memoTextView.delegate = self
@@ -38,7 +44,7 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
         imageView.layer.borderWidth = 1.0
         
         // 仮のサイズでツールバー生成
-        let kbToolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 40))
+        let kbToolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 35))
         kbToolBar.barStyle = UIBarStyle.Default  // スタイルを設定
         
         kbToolBar.sizeToFit()  // 画面幅に合わせてサイズを変更
@@ -70,7 +76,6 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
         //fontSizeの設定
         let fontSize = userDefaults.floatForKey("fontSize")
         titleTextField.font = UIFont.systemFontOfSize(CGFloat(fontSize))
-//        titleTextField.sizeToFit()
         memoTextView.font = UIFont.systemFontOfSize(CGFloat(fontSize))
         placeHolderLabel.font = UIFont.systemFontOfSize(CGFloat(fontSize))
         placeHolderLabel.sizeToFit()
@@ -142,7 +147,15 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
             let keyBoardFrame : CGRect = keyBoardValue.CGRectValue()
             let duration : NSTimeInterval = userInfo[UIKeyboardAnimationDurationUserInfoKey]! as! NSTimeInterval
             self.bottomLayoutConstraint.constant = keyBoardFrame.height - tabBarHeight
-            self.topLayoutConstraint.constant = -(keyBoardFrame.height - tabBarHeight)
+//            self.topLayoutConstraint.constant = -(keyBoardFrame.height - tabBarHeight)
+//            self.topLayoutConstraint.constant = -viewA.layer.bounds.height
+            navigationController?.navigationBar.hidden = true
+            self.viewCtopLayoutConstraint.constant = -(viewA.layer.bounds.height + viewB.layer.bounds.height)
+            self.viewCtopLayoutConstraitLandscape.constant = -viewA.layer.bounds.height
+            self.viewCLeadingConstraint.constant = -viewB.layer.bounds.width
+            print("viewA height: \(viewA.layer.bounds.height)")
+            print("viewB height: \(viewB.layer.bounds.height)")
+            print()
             UIView.animateWithDuration(duration, animations: { () -> Void in
                 self.view.layoutIfNeeded()
             })
@@ -156,9 +169,13 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
             
             let duration : NSTimeInterval = userInfo[UIKeyboardAnimationDurationUserInfoKey]! as! NSTimeInterval
             //viewを元の位置に戻す
+            navigationController?.navigationBar.hidden = false
             self.bottomLayoutConstraint.constant = 0
-            self.topLayoutConstraint.constant = 0
-            
+//            self.topLayoutConstraint.constant = 0
+            self.viewCtopLayoutConstraint.constant = 0
+            self.viewCtopLayoutConstraitLandscape.constant = 0
+            self.viewCLeadingConstraint.constant = 0
+
             UIView.animateWithDuration(duration, animations: { () -> Void in
                 self.view.layoutIfNeeded()
             })
@@ -184,6 +201,4 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
         activeTextView = false
         return true
     }
-
-    
 }
