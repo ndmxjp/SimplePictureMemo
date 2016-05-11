@@ -117,10 +117,12 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
         return cell
     }
     
+    //セルを編集可能にする
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return true
     }
     
+    //deleteボタンを押した時の処理
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             deleteNote(indexPath.row)
