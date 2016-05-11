@@ -971,7 +971,6 @@
                         <outlet property="memoTextView" destination="rM0-4m-iLP" id="Eb0-1w-fBJ"/>
                         <outlet property="placeHolderLabel" destination="82b-2R-TqN" id="Cae-Pc-Z9K"/>
                         <outlet property="titleTextField" destination="eYV-St-AIs" id="3rt-ky-IhU"/>
-                        <outlet property="topLayoutConstraint" destination="B0X-Q7-IOK" id="fJL-Rv-3sk"/>
                         <outlet property="viewA" destination="mg1-bS-Qqj" id="7Kk-e7-zuz"/>
                         <outlet property="viewB" destination="wGT-c2-0lT" id="CTm-3N-L4v"/>
                         <outlet property="viewCLeadingConstraint" destination="Snc-vQ-JH7" id="S5G-HU-wyg"/>

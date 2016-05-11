@@ -20,7 +20,6 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var memoTextView: UITextView!
     @IBOutlet weak var placeHolderLabel: UILabel!
-    @IBOutlet weak var topLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var viewA: UIView!
     @IBOutlet weak var viewB: UIView!
@@ -32,6 +31,8 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
 
         super.viewDidLoad()
         memoTextView.delegate = self
+        
+        //現在のノートの情報をセット
         if let note = note , let image = note.image{
             titleTextField.text = note.title
             imageView.image = UIImage(data: image)
@@ -152,10 +153,11 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
             let keyBoardFrame : CGRect = keyBoardValue.CGRectValue()
             let duration : NSTimeInterval = userInfo[UIKeyboardAnimationDurationUserInfoKey]! as! NSTimeInterval
             self.bottomLayoutConstraint.constant = keyBoardFrame.height - tabBarHeight
-//            self.topLayoutConstraint.constant = -(keyBoardFrame.height - tabBarHeight)
-//            self.topLayoutConstraint.constant = -viewA.layer.bounds.height
-//            navigationController?.navigationBar.hidden = true
+            
+            //縦画面の処理
             self.viewCtopLayoutConstraint.constant = -(viewA.layer.bounds.height + viewB.layer.bounds.height )
+            
+            //横画面の処理
             self.viewCtopLayoutConstraitLandscape.constant = -viewA.layer.bounds.height
             self.viewCLeadingConstraint.constant = -viewB.layer.bounds.width
             UIView.animateWithDuration(duration, animations: { () -> Void in
@@ -171,9 +173,7 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
             
             let duration : NSTimeInterval = userInfo[UIKeyboardAnimationDurationUserInfoKey]! as! NSTimeInterval
             //viewを元の位置に戻す
-//            navigationController?.navigationBar.hidden = false
             self.bottomLayoutConstraint.constant = 0
-//            self.topLayoutConstraint.constant = 0
             self.viewCtopLayoutConstraint.constant = 0
             self.viewCtopLayoutConstraitLandscape.constant = 0
             self.viewCLeadingConstraint.constant = 0
