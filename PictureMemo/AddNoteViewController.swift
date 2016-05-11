@@ -29,6 +29,7 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
     
     @IBOutlet weak var viewCLeadingConstraint: NSLayoutConstraint!
     override func viewDidLoad() {
+
         super.viewDidLoad()
         memoTextView.delegate = self
         if let note = note , let image = note.image{
@@ -38,6 +39,7 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
             
             placeHolderLabel.hidden = true
         }
+        
         
         //枠線を設定
         memoTextView.layer.borderWidth = 1.0
@@ -60,6 +62,9 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
         //キーボードにdoneボタンを追加
         titleTextField.inputAccessoryView = kbToolBar
         memoTextView.inputAccessoryView = kbToolBar
+
+        //layoutが崩れるのを防ぐ
+        self.viewWillAppear(false)
 
     }
     
@@ -149,13 +154,10 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
             self.bottomLayoutConstraint.constant = keyBoardFrame.height - tabBarHeight
 //            self.topLayoutConstraint.constant = -(keyBoardFrame.height - tabBarHeight)
 //            self.topLayoutConstraint.constant = -viewA.layer.bounds.height
-            navigationController?.navigationBar.hidden = true
-            self.viewCtopLayoutConstraint.constant = -(viewA.layer.bounds.height + viewB.layer.bounds.height)
+//            navigationController?.navigationBar.hidden = true
+            self.viewCtopLayoutConstraint.constant = -(viewA.layer.bounds.height + viewB.layer.bounds.height )
             self.viewCtopLayoutConstraitLandscape.constant = -viewA.layer.bounds.height
             self.viewCLeadingConstraint.constant = -viewB.layer.bounds.width
-            print("viewA height: \(viewA.layer.bounds.height)")
-            print("viewB height: \(viewB.layer.bounds.height)")
-            print()
             UIView.animateWithDuration(duration, animations: { () -> Void in
                 self.view.layoutIfNeeded()
             })
@@ -169,7 +171,7 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
             
             let duration : NSTimeInterval = userInfo[UIKeyboardAnimationDurationUserInfoKey]! as! NSTimeInterval
             //viewを元の位置に戻す
-            navigationController?.navigationBar.hidden = false
+//            navigationController?.navigationBar.hidden = false
             self.bottomLayoutConstraint.constant = 0
 //            self.topLayoutConstraint.constant = 0
             self.viewCtopLayoutConstraint.constant = 0
