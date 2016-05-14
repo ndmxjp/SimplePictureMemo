@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ubM-4G-uNZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ubM-4G-uNZ">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -653,10 +653,10 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0QG-FO-Nzb" userLabel="ContainerView">
                                 <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wGT-c2-0lT" userLabel="ViewB">
+                                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wGT-c2-0lT" userLabel="ViewB">
                                         <rect key="frame" x="0.0" y="99" width="600" height="243.5"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g2C-TS-zcr">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g2C-TS-zcr">
                                                 <rect key="frame" x="254" y="58" width="240" height="128"/>
                                             </imageView>
                                         </subviews>
@@ -700,7 +700,7 @@
                                             </mask>
                                         </variation>
                                     </view>
-                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mg1-bS-Qqj" userLabel="ViewA">
+                                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mg1-bS-Qqj" userLabel="ViewA">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="97"/>
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="タイトルを入力してください" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eYV-St-AIs">
@@ -808,7 +808,7 @@
                                             </mask>
                                         </variation>
                                     </view>
-                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hGJ-22-UIu" userLabel="ViewC">
+                                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hGJ-22-UIu" userLabel="ViewC">
                                         <rect key="frame" x="83" y="351" width="456" height="128"/>
                                         <subviews>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rM0-4m-iLP">
@@ -832,11 +832,11 @@
                                             <constraint firstItem="rM0-4m-iLP" firstAttribute="top" secondItem="hGJ-22-UIu" secondAttribute="top" constant="10" id="CPu-Gb-gJ0"/>
                                             <constraint firstItem="82b-2R-TqN" firstAttribute="top" secondItem="rM0-4m-iLP" secondAttribute="top" id="YrN-Zd-DCj"/>
                                             <constraint firstItem="rM0-4m-iLP" firstAttribute="leading" secondItem="hGJ-22-UIu" secondAttribute="leading" constant="10" id="bEP-XF-lX6"/>
-                                            <constraint firstAttribute="trailing" secondItem="rM0-4m-iLP" secondAttribute="trailing" constant="20" id="gGg-iR-FdJ"/>
+                                            <constraint firstAttribute="trailing" secondItem="rM0-4m-iLP" secondAttribute="trailing" constant="10" id="gGg-iR-FdJ"/>
                                             <constraint firstAttribute="bottom" secondItem="rM0-4m-iLP" secondAttribute="bottom" constant="10" id="gfI-0C-Mpl"/>
-                                            <constraint firstItem="rM0-4m-iLP" firstAttribute="top" secondItem="hGJ-22-UIu" secondAttribute="top" constant="20" id="lwH-wI-QuW"/>
-                                            <constraint firstItem="rM0-4m-iLP" firstAttribute="leading" secondItem="hGJ-22-UIu" secondAttribute="leading" constant="20" id="nUM-kI-Syk"/>
-                                            <constraint firstAttribute="bottom" secondItem="rM0-4m-iLP" secondAttribute="bottom" constant="20" id="rE4-wI-i2l"/>
+                                            <constraint firstItem="rM0-4m-iLP" firstAttribute="top" secondItem="hGJ-22-UIu" secondAttribute="top" constant="10" id="lwH-wI-QuW"/>
+                                            <constraint firstItem="rM0-4m-iLP" firstAttribute="leading" secondItem="hGJ-22-UIu" secondAttribute="leading" constant="10" id="nUM-kI-Syk"/>
+                                            <constraint firstAttribute="bottom" secondItem="rM0-4m-iLP" secondAttribute="bottom" constant="10" id="rE4-wI-i2l"/>
                                         </constraints>
                                         <variation key="default">
                                             <mask key="constraints">
@@ -1142,11 +1142,11 @@
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="JxF-7O-Tfh" secondAttribute="trailing" constant="10" id="Sau-MP-qam"/>
                                             <constraint firstAttribute="bottom" secondItem="JxF-7O-Tfh" secondAttribute="bottom" constant="10" id="Tcw-dV-AGG"/>
-                                            <constraint firstItem="JxF-7O-Tfh" firstAttribute="leading" secondItem="6Lx-8q-OtG" secondAttribute="leading" constant="20" id="Vcs-ZT-zrg"/>
-                                            <constraint firstAttribute="bottom" secondItem="JxF-7O-Tfh" secondAttribute="bottom" constant="20" id="a2e-1Q-iQV"/>
+                                            <constraint firstItem="JxF-7O-Tfh" firstAttribute="leading" secondItem="6Lx-8q-OtG" secondAttribute="leading" constant="10" id="Vcs-ZT-zrg"/>
+                                            <constraint firstAttribute="bottom" secondItem="JxF-7O-Tfh" secondAttribute="bottom" constant="10" id="a2e-1Q-iQV"/>
                                             <constraint firstItem="JxF-7O-Tfh" firstAttribute="leading" secondItem="6Lx-8q-OtG" secondAttribute="leading" constant="10" id="cD2-Jn-fXx"/>
-                                            <constraint firstItem="JxF-7O-Tfh" firstAttribute="top" secondItem="6Lx-8q-OtG" secondAttribute="top" constant="20" id="eVm-rj-aGv"/>
-                                            <constraint firstAttribute="trailing" secondItem="JxF-7O-Tfh" secondAttribute="trailing" constant="20" id="mrs-y7-7Ib"/>
+                                            <constraint firstItem="JxF-7O-Tfh" firstAttribute="top" secondItem="6Lx-8q-OtG" secondAttribute="top" constant="10" id="eVm-rj-aGv"/>
+                                            <constraint firstAttribute="trailing" secondItem="JxF-7O-Tfh" secondAttribute="trailing" constant="10" id="mrs-y7-7Ib"/>
                                             <constraint firstItem="JxF-7O-Tfh" firstAttribute="top" secondItem="6Lx-8q-OtG" secondAttribute="top" constant="10" id="xve-gW-Dnq"/>
                                         </constraints>
                                         <variation key="default">

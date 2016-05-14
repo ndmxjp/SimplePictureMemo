@@ -15,6 +15,10 @@ enum FontSize :Float{
     case min = 17.0
 }
 
+enum BorderWidth :Float{
+    case Size = 1.0
+}
+
 //noteの情報を受け取るための構造体
 struct NoteAttributes {
     var title :String?
@@ -22,7 +26,7 @@ struct NoteAttributes {
     var memo :String?
 }
 
-class TableViewController: UIViewController , UITableViewDelegate, UITableViewDataSource{
+class TableViewController: UIViewController , UITableViewDelegate, UITableViewDataSource {
 
     var notes :[Note] = []
     var deleteNoteIndex :Int?

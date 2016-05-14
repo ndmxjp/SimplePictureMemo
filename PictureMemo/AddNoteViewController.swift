@@ -9,6 +9,15 @@
 import UIKit
 import CoreData
 
+extension UIImagePickerController {
+    public override func shouldAutorotate() -> Bool {
+        return true
+    }
+    
+    public override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.All
+    }
+}
 
 class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate{
     
@@ -33,7 +42,7 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
         memoTextView.delegate = self
         
         //現在のノートの情報をセット
-        if let note = note , let image = note.image{
+        if let note = note , let image = note.image {
             titleTextField.text = note.title
             imageView.image = UIImage(data: image)
             memoTextView.text = note.memo
@@ -47,7 +56,7 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
         imageView.layer.borderWidth = 1.0
         
         // 仮のサイズでツールバー生成
-        let kbToolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 35))
+        let kbToolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         kbToolBar.barStyle = UIBarStyle.Default  // スタイルを設定
         
         kbToolBar.sizeToFit()  // 画面幅に合わせてサイズを変更
@@ -152,6 +161,8 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
             let keyBoardValue : NSValue = userInfo[UIKeyboardFrameEndUserInfoKey]! as! NSValue
             let keyBoardFrame : CGRect = keyBoardValue.CGRectValue()
             let duration : NSTimeInterval = userInfo[UIKeyboardAnimationDurationUserInfoKey]! as! NSTimeInterval
+            
+            //キーボードの高さ分viewを上げる
             self.bottomLayoutConstraint.constant = keyBoardFrame.height - tabBarHeight
             
             //縦画面の処理

@@ -45,6 +45,7 @@ class DetailViewController: UIViewController {
         memoTextView.font = UIFont.systemFontOfSize(CGFloat(fontSize))
     }
     
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let addNotelViewController = segue.destinationViewController as? AddNoteViewController {
             if let note = note {
