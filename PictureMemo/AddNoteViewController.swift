@@ -52,8 +52,8 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
         
         
         //枠線を設定
-        memoTextView.layer.borderWidth = 1.0
-        imageView.layer.borderWidth = 1.0
+        memoTextView.layer.borderWidth = CGFloat(Common.BorderWidth.Size.rawValue)
+        imageView.layer.borderWidth = CGFloat(Common.BorderWidth.Size.rawValue)
         
         // 仮のサイズでツールバー生成
         let kbToolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
@@ -83,13 +83,13 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
         
         //色の設定
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        if let colorData = userDefaults.objectForKey("color") as? NSData {
+        if let colorData = userDefaults.objectForKey(Common.COLOR_KEY_NAME) as? NSData {
             let color = NSKeyedUnarchiver.unarchiveObjectWithData(colorData) as? UIColor
             navigationController?.navigationBar.barTintColor = color
             tabBarController?.tabBar.barTintColor = color
         }
         //fontSizeの設定
-        let fontSize = userDefaults.floatForKey("fontSize")
+        let fontSize = userDefaults.floatForKey(Common.FONT_SIZE_KEY_NAME)
         titleTextField.font = UIFont.systemFontOfSize(CGFloat(fontSize))
         memoTextView.font = UIFont.systemFontOfSize(CGFloat(fontSize))
         placeHolderLabel.font = UIFont.systemFontOfSize(CGFloat(fontSize))

@@ -29,7 +29,7 @@ class SettingsViewController: UIViewController {
         
         //sliderValueの設定
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        slider.value = userDefaults.floatForKey("sliderValue")
+        slider.value = userDefaults.floatForKey(Common.SLIDER_VALUE_KEY_NAME)
         
         let borderWidth = CGFloat(2.0)
         
@@ -84,7 +84,7 @@ class SettingsViewController: UIViewController {
         //userDefaultsに色の情報を保存
         let colorData = NSKeyedArchiver.archivedDataWithRootObject(color)
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.setObject(colorData, forKey: "color")
+        userDefaults.setObject(colorData, forKey: Common.COLOR_KEY_NAME)
         userDefaults.synchronize()
         super.viewDidLoad()
     }
@@ -95,14 +95,14 @@ class SettingsViewController: UIViewController {
         
         //userDefaultsにfont-sizeの情報を保存
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.setFloat(fontSize, forKey: "fontSize")
-        userDefaults.setFloat(slider.value, forKey: "sliderValue")
+        userDefaults.setFloat(fontSize, forKey: Common.FONT_SIZE_KEY_NAME)
+        userDefaults.setFloat(slider.value, forKey: Common.SLIDER_VALUE_KEY_NAME)
         userDefaults.synchronize()
     }
     
     func convert(value :Float) -> Float{
-        let min = FontSize.min.rawValue
-        let max = FontSize.max.rawValue
+        let min = Common.FontSize.min.rawValue
+        let max = Common.FontSize.max.rawValue
         return value * Float(max - min) + Float(min)
     }
     

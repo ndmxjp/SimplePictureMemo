@@ -25,7 +25,7 @@ class DetailViewController: UIViewController {
         }
         
         //枠線を設定
-        memoTextView.layer.borderWidth = 1.0
+        memoTextView.layer.borderWidth = CGFloat(Common.BorderWidth.Size.rawValue)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -33,13 +33,13 @@ class DetailViewController: UIViewController {
         
         //色の設定
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        if let colorData = userDefaults.objectForKey("color") as? NSData {
+        if let colorData = userDefaults.objectForKey(Common.COLOR_KEY_NAME) as? NSData {
             let color = NSKeyedUnarchiver.unarchiveObjectWithData(colorData) as? UIColor
             navigationController?.navigationBar.barTintColor = color
             tabBarController?.tabBar.barTintColor = color
         }
         //fontSizeの設定
-        let fontSize = userDefaults.floatForKey("fontSize")
+        let fontSize = userDefaults.floatForKey(Common.FONT_SIZE_KEY_NAME)
         titleLabel.font = UIFont.systemFontOfSize(CGFloat(fontSize))
         titleLabel.sizeToFit()
         memoTextView.font = UIFont.systemFontOfSize(CGFloat(fontSize))

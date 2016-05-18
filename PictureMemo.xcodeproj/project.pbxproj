@@ -19,6 +19,7 @@
 		E10C280C1CD103F2009CBEA7 /* ItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10C280B1CD103F2009CBEA7 /* ItemTableViewCell.swift */; };
 		E10C280F1CD10DB3009CBEA7 /* Note+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10C280D1CD10DB3009CBEA7 /* Note+CoreDataProperties.swift */; };
 		E10C28101CD10DB3009CBEA7 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10C280E1CD10DB3009CBEA7 /* Note.swift */; };
+		E11829811CE9A0FB00BB2877 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11829801CE9A0FB00BB2877 /* Common.swift */; };
 		E17CB8BC1CD287DC0038E244 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17CB8BB1CD287DC0038E244 /* DetailViewController.swift */; };
 		E1F24B641CDB7DB50035E14A /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F24B631CDB7DB50035E14A /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
@@ -59,6 +60,7 @@
 		E10C280B1CD103F2009CBEA7 /* ItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemTableViewCell.swift; sourceTree = "<group>"; };
 		E10C280D1CD10DB3009CBEA7 /* Note+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E10C280E1CD10DB3009CBEA7 /* Note.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
+		E11829801CE9A0FB00BB2877 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		E17CB8BB1CD287DC0038E244 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		E1F24B631CDB7DB50035E14A /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,6 +115,7 @@
 			children = (
 				E10C27D81CD0A88B009CBEA7 /* AppDelegate.swift */,
 				E10C27DA1CD0A88B009CBEA7 /* TableViewController.swift */,
+				E11829801CE9A0FB00BB2877 /* Common.swift */,
 				E17CB8BB1CD287DC0038E244 /* DetailViewController.swift */,
 				E10C280D1CD10DB3009CBEA7 /* Note+CoreDataProperties.swift */,
 				E10C280E1CD10DB3009CBEA7 /* Note.swift */,
@@ -288,6 +291,7 @@
 				E10C280C1CD103F2009CBEA7 /* ItemTableViewCell.swift in Sources */,
 				E10C280F1CD10DB3009CBEA7 /* Note+CoreDataProperties.swift in Sources */,
 				E17CB8BC1CD287DC0038E244 /* DetailViewController.swift in Sources */,
+				E11829811CE9A0FB00BB2877 /* Common.swift in Sources */,
 				E1F24B641CDB7DB50035E14A /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

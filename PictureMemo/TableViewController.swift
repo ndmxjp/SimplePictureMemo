@@ -9,15 +9,6 @@
 import UIKit
 import CoreData
 
-//font-sizeの最大と最小の定義
-enum FontSize :Float{
-    case max = 30.0
-    case min = 17.0
-}
-
-enum BorderWidth :Float{
-    case Size = 1.0
-}
 
 //noteの情報を受け取るための構造体
 struct NoteAttributes {
@@ -43,7 +34,7 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
         
         //userDefaultsの初期値設定
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.registerDefaults(["fontSize" : FontSize.min.rawValue ])
+        userDefaults.registerDefaults([Common.FONT_SIZE_KEY_NAME : Common.FontSize.min.rawValue ])
         
         //tableViewの余白を消す
         self.automaticallyAdjustsScrollViewInsets = false;
@@ -51,10 +42,10 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
         //coredataからデータを取り出す
         let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
         if let managedContext = appDelegate?.managedObjectContext {
-            let entityDescription = NSEntityDescription.entityForName("Note", inManagedObjectContext: managedContext)
+            let entityDescription = NSEntityDescription.entityForName(Common.ENTITY_NAME, inManagedObjectContext: managedContext)
             let fetchRequest = NSFetchRequest()
             fetchRequest.entity = entityDescription
-            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: Common.ENTITY_DATE_KEY_NAME, ascending: false)]
             do {
                 let results = try managedContext.executeFetchRequest(fetchRequest)
                 self.notes = results as! [Note]
@@ -70,13 +61,13 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
 
         //色の設定
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        if let colorData = userDefaults.objectForKey("color") as? NSData {
+        if let colorData = userDefaults.objectForKey(Common.COLOR_KEY_NAME) as? NSData {
             let color = NSKeyedUnarchiver.unarchiveObjectWithData(colorData) as? UIColor
             navigationController?.navigationBar.barTintColor = color
             tabBarController?.tabBar.barTintColor = color
         }
         //fontSizeの設定
-        self.fontSize = userDefaults.floatForKey("fontSize")
+        self.fontSize = userDefaults.floatForKey(Common.FONT_SIZE_KEY_NAME)
         
         //テーブルの更新
         if let noteAttributes = noteAttributes, let title = noteAttributes.title , let image = noteAttributes.uiImage, let memo = noteAttributes.memo {
@@ -104,7 +95,7 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("itemCell", forIndexPath: indexPath) as! ItemTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(Common.CELL_NAME, forIndexPath: indexPath) as! ItemTableViewCell
         let note = notes[indexPath.row]
         if let title = note.title, let image = note.image, let memo = note.memo {
             cell.itemTitleLabel.text = title
@@ -158,7 +149,7 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
     func saveNote(title :String, image: UIImage, memo :String){
         let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
         if let managedContext = appDelegate?.managedObjectContext {
-            let managedObject :AnyObject = NSEntityDescription.insertNewObjectForEntityForName("Note", inManagedObjectContext: managedContext)
+            let managedObject :AnyObject = NSEntityDescription.insertNewObjectForEntityForName(Common.ENTITY_NAME, inManagedObjectContext: managedContext)
             if let model = managedObject as? PictureMemo.Note {
                 model.image = UIImagePNGRepresentation(image)
                 model.title = title
