@@ -53,7 +53,7 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
         
         //枠線を設定
         memoTextView.layer.borderWidth = CGFloat(Common.BorderWidth.Size.rawValue)
-        imageView.layer.borderWidth = CGFloat(Common.BorderWidth.Size.rawValue)
+//        imageView.layer.borderWidth = CGFloat(Common.BorderWidth.Size.rawValue)
         
         // 仮のサイズでツールバー生成
         let kbToolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 0, height: 0))

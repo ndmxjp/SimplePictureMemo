@@ -26,6 +26,7 @@ class DetailViewController: UIViewController {
         
         //枠線を設定
         memoTextView.layer.borderWidth = CGFloat(Common.BorderWidth.Size.rawValue)
+
     }
     
     override func viewWillAppear(animated: Bool) {

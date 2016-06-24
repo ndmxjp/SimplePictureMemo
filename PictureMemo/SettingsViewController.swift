@@ -12,16 +12,16 @@ class SettingsViewController: UIViewController {
     
     @IBOutlet weak var textLabel: UILabel!
     @IBOutlet weak var slider: UISlider!
-    @IBOutlet weak var whiteButton: UIButton!
+    @IBOutlet weak var alizarinButton: UIButton!
     @IBOutlet weak var orangeButton: UIButton!
-    @IBOutlet weak var cyanButton: UIButton!
-    @IBOutlet weak var greenButton: UIButton!
+    @IBOutlet weak var peterRiverButton: UIButton!
+    @IBOutlet weak var turquoiseButton: UIButton!
     
     enum ButtonTag :Int {
         case Orange
-        case Cyan
-        case Green
-        case White
+        case PeterRiver
+        case Turquoise
+        case Alizarin
     }
     
     override func viewDidLoad() {
@@ -33,21 +33,21 @@ class SettingsViewController: UIViewController {
         
         let borderWidth = CGFloat(2.0)
         
-        whiteButton.addTarget(self, action: #selector(SettingsViewController.tapEvent(_:)), forControlEvents: .TouchUpInside)
-        whiteButton.tag = ButtonTag.White.rawValue
-        whiteButton.layer.borderWidth = borderWidth
+        alizarinButton.addTarget(self, action: #selector(SettingsViewController.tapEvent(_:)), forControlEvents: .TouchUpInside)
+        alizarinButton.tag = ButtonTag.Alizarin.rawValue
+        alizarinButton.layer.borderWidth = borderWidth
         
         orangeButton.addTarget(self, action: #selector(SettingsViewController.tapEvent(_:)), forControlEvents: .TouchUpInside)
         orangeButton.tag = ButtonTag.Orange.rawValue
         orangeButton.layer.borderWidth = borderWidth
         
-        cyanButton.addTarget(self, action: #selector(SettingsViewController.tapEvent(_:)), forControlEvents: .TouchUpInside)
-        cyanButton.tag = ButtonTag.Cyan.rawValue
-        cyanButton.layer.borderWidth = borderWidth
+        peterRiverButton.addTarget(self, action: #selector(SettingsViewController.tapEvent(_:)), forControlEvents: .TouchUpInside)
+        peterRiverButton.tag = ButtonTag.PeterRiver.rawValue
+        peterRiverButton.layer.borderWidth = borderWidth
         
-        greenButton.addTarget(self, action: #selector(SettingsViewController.tapEvent(_:)), forControlEvents: .TouchUpInside)
-        greenButton.tag = ButtonTag.Green.rawValue
-        greenButton.layer.borderWidth = borderWidth
+        turquoiseButton.addTarget(self, action: #selector(SettingsViewController.tapEvent(_:)), forControlEvents: .TouchUpInside)
+        turquoiseButton.tag = ButtonTag.Turquoise.rawValue
+        turquoiseButton.layer.borderWidth = borderWidth
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -67,14 +67,15 @@ class SettingsViewController: UIViewController {
             return
         }
         switch tag {
-        case .White:
-            color = UIColor.whiteColor()
+        case .Alizarin:
+            color = Common.AlizarinColor
         case .Orange:
-            color = UIColor.orangeColor()
-        case .Cyan:
-            color = UIColor.cyanColor()
-        case .Green:
-            color = UIColor.greenColor()
+            color = Common.OrangeColor
+        case .PeterRiver:
+            color = Common.PeterRiverColor
+        case .Turquoise:
+            color = Common.TurquoiseColor
+
         }
         
         //色の設定

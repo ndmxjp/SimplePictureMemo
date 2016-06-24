@@ -18,6 +18,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
+        //navigation barのタイトルを白くする
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor() ]
+        
+        //userDefaultsに初期の色を設定
+        let color = Common.AlizarinColor
+        let colorData = NSKeyedArchiver.archivedDataWithRootObject(color)
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.setObject(colorData, forKey: Common.COLOR_KEY_NAME)
+        userDefaults.synchronize()
+
         return true
     }
 
