@@ -33,21 +33,21 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
         tableView.dataSource = self
         
         //userDefaultsの初期値設定
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.registerDefaults([Common.FONT_SIZE_KEY_NAME : Common.FontSize.min.rawValue ])
+        let userDefaults = UserDefaults.standard
+        userDefaults.register(defaults: [Common.FONT_SIZE_KEY_NAME : Common.FontSize.min.rawValue ])
         
         //tableViewの余白を消す
         self.automaticallyAdjustsScrollViewInsets = false;
         
         //coredataからデータを取り出す
-        let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
         if let managedContext = appDelegate?.managedObjectContext {
-            let entityDescription = NSEntityDescription.entityForName(Common.ENTITY_NAME, inManagedObjectContext: managedContext)
-            let fetchRequest = NSFetchRequest()
+            let entityDescription = NSEntityDescription.entity(forEntityName: Common.ENTITY_NAME, in: managedContext)
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
             fetchRequest.entity = entityDescription
             fetchRequest.sortDescriptors = [NSSortDescriptor(key: Common.ENTITY_DATE_KEY_NAME, ascending: false)]
             do {
-                let results = try managedContext.executeFetchRequest(fetchRequest)
+                let results = try managedContext.fetch(fetchRequest)
                 self.notes = results as! [Note]
             } catch let error as NSError {
                 print("Could not fetch \(error), \(error.userInfo)")
@@ -56,23 +56,23 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         //色の設定
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        if let colorData = userDefaults.objectForKey(Common.COLOR_KEY_NAME) as? NSData {
-            let color = NSKeyedUnarchiver.unarchiveObjectWithData(colorData) as? UIColor
+        let userDefaults = UserDefaults.standard
+        if let colorData = userDefaults.object(forKey: Common.COLOR_KEY_NAME) as? Data {
+            let color = NSKeyedUnarchiver.unarchiveObject(with: colorData) as? UIColor
             navigationController?.navigationBar.barTintColor = color
             tabBarController?.tabBar.barTintColor = color
         }
         //fontSizeの設定
-        self.fontSize = userDefaults.floatForKey(Common.FONT_SIZE_KEY_NAME)
+        self.fontSize = userDefaults.float(forKey: Common.FONT_SIZE_KEY_NAME)
         
         //テーブルの更新
         if let noteAttributes = noteAttributes, let title = noteAttributes.title , let image = noteAttributes.uiImage, let memo = noteAttributes.memo {
             //更新の場合
-            if let edited = edited where edited , let noteIndex = deleteNoteIndex {
+            if let edited = edited, edited , let noteIndex = deleteNoteIndex {
                 deleteNote(noteIndex)
             }
             saveNote(title, image: image, memo: memo)
@@ -90,22 +90,22 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
         // Dispose of any resources that can be recreated.
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return notes.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(Common.CELL_NAME, forIndexPath: indexPath) as! ItemTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: Common.CELL_NAME, for: indexPath) as! ItemTableViewCell
         let note = notes[indexPath.row]
         if let title = note.title, let image = note.image, let memo = note.memo {
             cell.itemTitleLabel.text = title
-            cell.itemImageView.image = UIImage(data: image)
+            cell.itemImageView.image = UIImage(data: image as Data)
             cell.itemMemoLabel.text = memo
 
             //font-sizeの設定
             if let fontSize = self.fontSize {
-                cell.itemMemoLabel.font = UIFont.systemFontOfSize(CGFloat(fontSize))
-                cell.itemTitleLabel.font = UIFont.systemFontOfSize(CGFloat(fontSize))
+                cell.itemMemoLabel.font = UIFont.systemFont(ofSize: CGFloat(fontSize))
+                cell.itemTitleLabel.font = UIFont.systemFont(ofSize: CGFloat(fontSize))
                 cell.itemTitleLabel.sizeToFit()
             }
         }
@@ -113,20 +113,20 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
     }
     
     //セルを編集可能にする
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
     //deleteボタンを押した時の処理
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
             deleteNote(indexPath.row)
         }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let _ = sender as? ItemTableViewCell {
-            if let detailViewController = segue.destinationViewController as? DetailViewController {
+            if let detailViewController = segue.destination as? DetailViewController {
                 if let cellIndex = tableView.indexPathForSelectedRow?.row{
                     detailViewController.note = notes[cellIndex]
                     self.deleteNoteIndex = cellIndex
@@ -136,29 +136,29 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
     }
     
     //coredataからノートの削除
-    func deleteNote(index :Int){
-        let appDelegate  = UIApplication.sharedApplication().delegate as? AppDelegate
+    func deleteNote(_ index :Int){
+        let appDelegate  = UIApplication.shared.delegate as? AppDelegate
         let managedContex = appDelegate?.managedObjectContext
-        managedContex?.deleteObject(notes[index])
+        managedContex?.delete(notes[index])
         appDelegate?.saveContext()
-        notes.removeAtIndex(index)
-        tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: index,inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
+        notes.remove(at: index)
+        tableView.deleteRows(at: [IndexPath(row: index,section: 0)], with: UITableViewRowAnimation.fade)
     }
     
     //noteをcoredataに保存する処理
-    func saveNote(title :String, image: UIImage, memo :String){
-        let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
+    func saveNote(_ title :String, image: UIImage, memo :String){
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
         if let managedContext = appDelegate?.managedObjectContext {
-            let managedObject :AnyObject = NSEntityDescription.insertNewObjectForEntityForName(Common.ENTITY_NAME, inManagedObjectContext: managedContext)
+            let managedObject :AnyObject = NSEntityDescription.insertNewObject(forEntityName: Common.ENTITY_NAME, into: managedContext)
             if let model = managedObject as? PictureMemo.Note {
                 model.image = UIImagePNGRepresentation(image)
                 model.title = title
                 model.memo = memo
-                model.date = NSDate()
+                model.date = Date()
                 
                 appDelegate?.saveContext()
-                notes.insert(model, atIndex: 0)
-                tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Right)
+                notes.insert(model, at: 0)
+                tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: UITableViewRowAnimation.right)
 
             }
         }

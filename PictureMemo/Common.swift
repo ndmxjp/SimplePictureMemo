@@ -25,6 +25,6 @@ class Common {
     }
     
     enum BorderWidth :Float{
-        case Size = 1.0
+        case size = 1.0
     }
 }

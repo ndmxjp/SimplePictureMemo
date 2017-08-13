@@ -10,12 +10,12 @@ import UIKit
 import CoreData
 
 extension UIImagePickerController {
-    public override func shouldAutorotate() -> Bool {
+    open override var shouldAutorotate : Bool {
         return true
     }
     
-    public override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.All
+    open override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.all
     }
 }
 
@@ -44,28 +44,28 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
         //現在のノートの情報をセット
         if let note = note , let image = note.image {
             titleTextField.text = note.title
-            imageView.image = UIImage(data: image)
+            imageView.image = UIImage(data: image as Data)
             memoTextView.text = note.memo
             
-            placeHolderLabel.hidden = true
+            placeHolderLabel.isHidden = true
         }
         
         
         //枠線を設定
-        memoTextView.layer.borderWidth = CGFloat(Common.BorderWidth.Size.rawValue)
+        memoTextView.layer.borderWidth = CGFloat(Common.BorderWidth.size.rawValue)
 //        imageView.layer.borderWidth = CGFloat(Common.BorderWidth.Size.rawValue)
         
         // 仮のサイズでツールバー生成
         let kbToolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        kbToolBar.barStyle = UIBarStyle.Default  // スタイルを設定
+        kbToolBar.barStyle = UIBarStyle.default  // スタイルを設定
         
         kbToolBar.sizeToFit()  // 画面幅に合わせてサイズを変更
         
         // スペーサー
-        let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
+        let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: self, action: nil)
         
         // 閉じるボタン
-        let commitButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: #selector(AddNoteViewController.commitButtonTapped))
+        let commitButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: #selector(AddNoteViewController.commitButtonTapped))
         
         kbToolBar.items = [spacer, commitButton]
 
@@ -78,67 +78,67 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
 
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         //色の設定
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        if let colorData = userDefaults.objectForKey(Common.COLOR_KEY_NAME) as? NSData {
-            let color = NSKeyedUnarchiver.unarchiveObjectWithData(colorData) as? UIColor
+        let userDefaults = UserDefaults.standard
+        if let colorData = userDefaults.object(forKey: Common.COLOR_KEY_NAME) as? Data {
+            let color = NSKeyedUnarchiver.unarchiveObject(with: colorData) as? UIColor
             navigationController?.navigationBar.barTintColor = color
             tabBarController?.tabBar.barTintColor = color
         }
         //fontSizeの設定
-        let fontSize = userDefaults.floatForKey(Common.FONT_SIZE_KEY_NAME)
-        titleTextField.font = UIFont.systemFontOfSize(CGFloat(fontSize))
-        memoTextView.font = UIFont.systemFontOfSize(CGFloat(fontSize))
-        placeHolderLabel.font = UIFont.systemFontOfSize(CGFloat(fontSize))
+        let fontSize = userDefaults.float(forKey: Common.FONT_SIZE_KEY_NAME)
+        titleTextField.font = UIFont.systemFont(ofSize: CGFloat(fontSize))
+        memoTextView.font = UIFont.systemFont(ofSize: CGFloat(fontSize))
+        placeHolderLabel.font = UIFont.systemFont(ofSize: CGFloat(fontSize))
         placeHolderLabel.sizeToFit()
         
-        NSNotificationCenter.defaultCenter().addObserver(self,
+        NotificationCenter.default.addObserver(self,
                                                          selector: #selector(AddNoteViewController.keyboardWillChangeFrame(_:)),
-                                                         name: UIKeyboardWillChangeFrameNotification,
+                                                         name: NSNotification.Name.UIKeyboardWillChangeFrame,
                                                          object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self,
+        NotificationCenter.default.addObserver(self,
                                                          selector: #selector(AddNoteViewController.keyboardWillHide(_:)),
-                                                         name: UIKeyboardWillHideNotification,
+                                                         name: NSNotification.Name.UIKeyboardWillHide,
                                                          object: nil)
     }
     
     
-    @IBAction func tapSellectImageButton(sender: AnyObject) {
+    @IBAction func tapSellectImageButton(_ sender: AnyObject) {
         pickImageFromLibrary()
     }
     
     //    ライブラリから写真を選択する
     func pickImageFromLibrary() {
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) {
             let controller = UIImagePickerController()
             controller.delegate = self
-            controller.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-            self.presentViewController(controller, animated: true, completion: nil)
+            controller.sourceType = UIImagePickerControllerSourceType.photoLibrary
+            self.present(controller, animated: true, completion: nil)
         }
     }
     
     //    写真を選択した時に呼ばれる
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         if info[UIImagePickerControllerOriginalImage] != nil {
             imageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
         }
-        picker.dismissViewControllerAnimated(true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func tapSaveButton(sender: AnyObject) {
-        guard let title = titleTextField.text where title != "", let image = imageView.image, let memo = memoTextView.text where memo != "" else {
+    @IBAction func tapSaveButton(_ sender: AnyObject) {
+        guard let title = titleTextField.text, title != "", let image = imageView.image, let memo = memoTextView.text, memo != "" else {
             
             //アラートダイアログ生成
-            let alertController = UIAlertController(title: "error", message: "入力していない項目があります", preferredStyle: UIAlertControllerStyle.Alert)
+            let alertController = UIAlertController(title: "error", message: "入力していない項目があります", preferredStyle: UIAlertControllerStyle.alert)
             //okボタンを追加
-            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
             alertController.addAction(okAction)
             //アラートダイアログを表示
-            presentViewController(alertController, animated: true, completion: nil)
+            present(alertController, animated: true, completion: nil)
             return
         }
         
@@ -148,19 +148,19 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
         tableViewController?.edited = true
         
         //tableViewに戻る
-        navigationController?.popToRootViewControllerAnimated(true)
+        navigationController?.popToRootViewController(animated: true)
     }
     
-    func keyboardWillChangeFrame(notification: NSNotification){
+    func keyboardWillChangeFrame(_ notification: Notification){
         //textViewが選択された時
-        if let userInfo = notification.userInfo , let active = activeTextView where active == true{
+        if let userInfo = notification.userInfo , let active = activeTextView, active == true{
             guard let tabBarHeight = self.tabBarController?.tabBar.frame.size.height else{
                 return
             }
             //constraintを変化させviewをずらす
             let keyBoardValue : NSValue = userInfo[UIKeyboardFrameEndUserInfoKey]! as! NSValue
-            let keyBoardFrame : CGRect = keyBoardValue.CGRectValue()
-            let duration : NSTimeInterval = userInfo[UIKeyboardAnimationDurationUserInfoKey]! as! NSTimeInterval
+            let keyBoardFrame : CGRect = keyBoardValue.cgRectValue
+            let duration : TimeInterval = userInfo[UIKeyboardAnimationDurationUserInfoKey]! as! TimeInterval
             
             //キーボードの高さ分viewを上げる
             self.bottomLayoutConstraint.constant = keyBoardFrame.height - tabBarHeight
@@ -171,7 +171,7 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
             //横画面の処理
             self.viewCtopLayoutConstraitLandscape.constant = -viewA.layer.bounds.height
             self.viewCLeadingConstraint.constant = -viewB.layer.bounds.width
-            UIView.animateWithDuration(duration, animations: { () -> Void in
+            UIView.animate(withDuration: duration, animations: { () -> Void in
                 self.view.layoutIfNeeded()
             })
             
@@ -179,17 +179,17 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
         
     }
     
-    func keyboardWillHide(notification: NSNotification) {
+    func keyboardWillHide(_ notification: Notification) {
         if let userInfo = notification.userInfo {
             
-            let duration : NSTimeInterval = userInfo[UIKeyboardAnimationDurationUserInfoKey]! as! NSTimeInterval
+            let duration : TimeInterval = userInfo[UIKeyboardAnimationDurationUserInfoKey]! as! TimeInterval
             //viewを元の位置に戻す
             self.bottomLayoutConstraint.constant = 0
             self.viewCtopLayoutConstraint.constant = 0
             self.viewCtopLayoutConstraitLandscape.constant = 0
             self.viewCLeadingConstraint.constant = 0
 
-            UIView.animateWithDuration(duration, animations: { () -> Void in
+            UIView.animate(withDuration: duration, animations: { () -> Void in
                 self.view.layoutIfNeeded()
             })
             
@@ -201,15 +201,15 @@ class AddNoteViewController :UIViewController,UIImagePickerControllerDelegate, U
         self.view.endEditing(true)
     }
     
-    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
-        placeHolderLabel.hidden = true
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        placeHolderLabel.isHidden = true
         activeTextView = true
         return true
     }
     
-    func textViewShouldEndEditing(textView: UITextView) -> Bool {
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         if memoTextView.text.isEmpty {
-            placeHolderLabel.hidden = false
+            placeHolderLabel.isHidden = false
         }
         activeTextView = false
         return true
