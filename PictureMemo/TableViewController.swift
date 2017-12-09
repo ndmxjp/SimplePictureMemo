@@ -19,7 +19,11 @@ struct NoteAttributes {
 
 class TableViewController: UIViewController , UITableViewDelegate, UITableViewDataSource {
 
-    var notes :[Note] = []
+    var notes :[Note] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     var deleteNoteIndex :Int?
     var noteAttributes :NoteAttributes?
     var edited :Bool?
@@ -32,6 +36,7 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
         tableView.delegate = self
         tableView.dataSource = self
         
+        
         //userDefaultsの初期値設定
         let userDefaults = UserDefaults.standard
         userDefaults.register(defaults: [Common.FONT_SIZE_KEY_NAME : Common.FontSize.min.rawValue ])
@@ -39,21 +44,8 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
         //tableViewの余白を消す
         self.automaticallyAdjustsScrollViewInsets = false;
         
-        //coredataからデータを取り出す
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        if let managedContext = appDelegate?.managedObjectContext {
-            let entityDescription = NSEntityDescription.entity(forEntityName: Common.ENTITY_NAME, in: managedContext)
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
-            fetchRequest.entity = entityDescription
-            fetchRequest.sortDescriptors = [NSSortDescriptor(key: Common.ENTITY_DATE_KEY_NAME, ascending: false)]
-            do {
-                let results = try managedContext.fetch(fetchRequest)
-                self.notes = results as! [Note]
-            } catch let error as NSError {
-                print("Could not fetch \(error), \(error.userInfo)")
-            }
-        }
-        
+        self.notes = getNotes()
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -77,8 +69,8 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
             }
             saveNote(title, image: image, memo: memo)
         }
-
-        tableView.reloadData()
+        
+        self.notes = getNotes()
         
         edited = nil
         noteAttributes = nil
@@ -121,6 +113,7 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             deleteNote(indexPath.row)
+            notes.remove(at: indexPath.row)
         }
     }
     
@@ -141,8 +134,8 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
         let managedContex = appDelegate?.managedObjectContext
         managedContex?.delete(notes[index])
         appDelegate?.saveContext()
-        notes.remove(at: index)
-        tableView.deleteRows(at: [IndexPath(row: index,section: 0)], with: UITableViewRowAnimation.fade)
+//        notes.remove(at: index)
+//        tableView.deleteRows(at: [IndexPath(row: index,section: 0)], with: UITableViewRowAnimation.fade)
     }
     
     //noteをcoredataに保存する処理
@@ -157,11 +150,37 @@ class TableViewController: UIViewController , UITableViewDelegate, UITableViewDa
                 model.date = Date()
                 
                 appDelegate?.saveContext()
-                notes.insert(model, at: 0)
-                tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: UITableViewRowAnimation.right)
+//                notes.insert(model, at: 0)
+//                tableView.beginUpdates()
+//                tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: UITableViewRowAnimation.right)
+//                tableView.endUpdates()
 
             }
         }
+    }
+    
+    func getNotes() -> [Note] {
+        //coredataからデータを取り出す
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        if let managedContext = appDelegate?.managedObjectContext {
+            let entityDescription = NSEntityDescription.entity(forEntityName: Common.ENTITY_NAME, in: managedContext)
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+            fetchRequest.entity = entityDescription
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: Common.ENTITY_DATE_KEY_NAME, ascending: false)]
+//            do {
+//                let results = try managedContext.fetch(fetchRequest)
+//                let notes = results as! [Note]
+//                return notes ?? []
+//            } catch let error as NSError {
+//                print("Could not fetch \(error), \(error.userInfo)")
+//            }
+            let results = try? managedContext.fetch(fetchRequest)
+            guard let array = results else {
+                return []
+            }
+            return array as? [Note] ?? []
+        }
+        return []
     }
 }
 
